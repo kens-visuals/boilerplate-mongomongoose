@@ -1,11 +1,35 @@
+const mongoose = require('mongoose');
 require('dotenv').config();
+// const { Schema } = mongoose;
 
+const URI = process.env.MONGO_URI;
 
-let Person;
+mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true });
+
+const personSchema = new mongoose.Schema({
+  name: String,
+  age: Number,
+  favoriteFoods: [String],
+});
+
+const Person = mongoose.model('Person', personSchema);
 
 const createAndSavePerson = (done) => {
-  done(null /*, data*/);
+  const janeFonda = new Person({
+    name: 'Jane Fonda',
+    age: 84,
+    favoriteFoods: ['eggs', 'fish', 'fresh fruit'],
+  });
+
+  janeFonda.save(function (err, data) {
+    if (err) return console.error(err);
+    done(null, data);
+  });
 };
+
+// const createAndSavePerson = (done) => {
+//   done(null /*, data*/);
+// };
 
 const createManyPeople = (arrayOfPeople, done) => {
   done(null /*, data*/);
@@ -24,7 +48,7 @@ const findPersonById = (personId, done) => {
 };
 
 const findEditThenSave = (personId, done) => {
-  const foodToAdd = "hamburger";
+  const foodToAdd = 'hamburger';
 
   done(null /*, data*/);
 };
@@ -40,13 +64,13 @@ const removeById = (personId, done) => {
 };
 
 const removeManyPeople = (done) => {
-  const nameToRemove = "Mary";
+  const nameToRemove = 'Mary';
 
   done(null /*, data*/);
 };
 
 const queryChain = (done) => {
-  const foodToSearch = "burrito";
+  const foodToSearch = 'burrito';
 
   done(null /*, data*/);
 };
